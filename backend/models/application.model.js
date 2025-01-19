@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 const applicationSchema = new mongoose.Schema({
     job:{
         type: mongoose.Schema.Types.ObjectId,
-        ref:'job',
+        ref:'Job',
         required: true
     },
     applicant:{
@@ -16,4 +16,4 @@ const applicationSchema = new mongoose.Schema({
         default:'pending'
     }
 }, {timeseries: true})
-export const Application = mongoose.model(Application , applicationSchema);
+export const Application = mongoose.model("Application" , applicationSchema);

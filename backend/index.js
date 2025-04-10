@@ -19,6 +19,7 @@ app.use(express.urlencoded({extended:true}));
 app.use(cookieParser());
 const allowedOrigins = [
   'http://localhost:5173',
+  'job-sprint-nine.vercel.app',
   'https://job-sprint-frontend.onrender.com'
 ];
 

@@ -100,16 +100,45 @@ export const login = async(req , res)=>{
         console.log(error);
     }
 }
-export const logout = async (req , res)=>{
+export const logout = async (req, res) => {
+    console.log("called logout");
+    
     try {
-        return res.status(200).cookie("token" , "" , {maxAge:0}).json({
-            message:"Logged out successfully.",
-            success:true
-        })
+        const isProduction = process.env.NODE_ENV === 'production';
+
+        // Clear all cookies
+        for (const cookieName in req.cookies) {
+            res.clearCookie(cookieName, {
+                httpOnly: true,
+                secure: isProduction,
+                sameSite: isProduction ? "None" : "Lax",
+            });
+        }
+
+        return res.status(200).json({
+            message: "Logged out successfully. All cookies cleared.",
+            success: true,
+        });
     } catch (error) {
         console.log(error);
+        return res.status(500).json({
+            message: "Something went wrong during logout.",
+            success: false,
+        });
     }
-}
+};
+
+
+// export const logout = async (req , res)=>{
+//     try {
+//         return res.status(200).cookie("token" , "" , {maxAge:0}).json({
+//             message:"Logged out successfully.",
+//             success:true
+//         })
+//     } catch (error) {
+//         console.log(error);
+//     }
+// }
 export const updateProfile = async(req , res)=>{
     try {
         const {fullname,email , phoneNumber,bio,skills}=req.body;
